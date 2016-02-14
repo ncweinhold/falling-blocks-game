@@ -133,6 +133,17 @@
 (defmethod fast-drop-piece ((p piece))
   (write-line "fast drop"))
 
+(defun generate-new-piece ()
+  (let ((index (random 7)))
+    (case index
+      (0 (make-instance 'piece-O))
+      (1 (make-instance 'piece-L))
+      (2 (make-instance 'piece-J))
+      (3 (make-instance 'piece-T))
+      (4 (make-instance 'piece-I))
+      (5 (make-instance 'piece-Z))
+      (6 (make-instance 'piece-S)))))
+
 (defun update-game ()
   (write-line "Updating"))
 
