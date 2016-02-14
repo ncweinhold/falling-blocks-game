@@ -144,6 +144,12 @@
       (5 (make-instance 'piece-Z))
       (6 (make-instance 'piece-S)))))
 
+(defmethod bottom-edge ((p piece))
+  (block outer
+    (loop for i from 3 downto 0 do
+      (let ((line (ldb (byte 4 (* i 4)) (current-rotation-data p))))
+        (when (logtest line #xE) (return-from outer i))))))
+
 (defun update-game ()
   (write-line "Updating"))
 
