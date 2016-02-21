@@ -150,6 +150,30 @@
       (let ((line (ldb (byte 4 (* i 4)) (current-rotation-data p))))
         (when (logtest line #xE) (return-from outer i))))))
 
+(defclass well ()
+  ((board :accessor board
+          :initarg :board
+          :initform (make-array '(25 10)))))
+
+(defmethod well-fullp ((w well) 24)
+  (block outer
+    (loop for i across line do
+      (when (= i 1) (return-from outer t)))
+    nil))
+
+(defmethod line-fullp ((w well) row)
+  "Returns true if the line given by row index is full."
+  (block outer
+    (loop for i across line do
+      (when (= i 0) (return-from outer nil)))
+    t))
+
+;;;; Taken from http://stackoverflow.com/questions/12327237/common-lisp-how-to-access-a-row-of-a-certain-multi-dimension-array
+(defun array-slice (arr row)
+  (make-array (array-dimension arr 1)
+              :displaced-to arr
+              :displaced-index-offset (* row (array-dimension arr 1))))
+
 (defun update-game ()
   (write-line "Updating"))
 
